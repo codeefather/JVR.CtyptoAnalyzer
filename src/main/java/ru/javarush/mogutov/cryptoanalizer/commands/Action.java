@@ -1,7 +1,7 @@
 package ru.javarush.mogutov.cryptoanalizer.commands;
 
-import ru.javarush.mogutov.cryptoanalizer.entity.Result;
+import ru.javarush.mogutov.cryptoanalizer.entity.Controller;
 
 public interface Action {
-    Result execute(String[] parameters);
+    void execute();
 }

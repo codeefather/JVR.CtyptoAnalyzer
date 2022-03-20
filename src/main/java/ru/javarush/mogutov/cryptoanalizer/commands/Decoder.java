@@ -1,11 +1,13 @@
 package ru.javarush.mogutov.cryptoanalizer.commands;
 
-import ru.javarush.mogutov.cryptoanalizer.entity.Result;
-
 public class Decoder implements Action{
 
+    Analyzer analyzer;
+
     @Override
-    public Result execute(String[] parameters) {
-        return null;
+    public void execute() {
+
     }
+
+
 }

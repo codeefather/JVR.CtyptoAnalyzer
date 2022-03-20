@@ -1,14 +1,17 @@
 package ru.javarush.mogutov.cryptoanalizer;
 
-import ru.javarush.mogutov.cryptoanalizer.entity.Result;
+import ru.javarush.mogutov.cryptoanalizer.entity.Controller;
+
+import static ru.javarush.mogutov.cryptoanalizer.constants.Constants.*;
 
 public class Application {
     public static void main(String[] args) {
-        Application application = new Application();
-        Result result = application.run();
+        createApp();
     }
 
-    public Result run(){
-        return null;
+    public static void createApp(){
+        console.run();
+        controller = new Controller();
     }
+
 }
