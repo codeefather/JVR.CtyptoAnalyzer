@@ -1,5 +1,5 @@
 package ru.javarush.mogutov.cryptoanalizer;
 
-public class Runner {
+public class ConsoleRunner {
 
 }
