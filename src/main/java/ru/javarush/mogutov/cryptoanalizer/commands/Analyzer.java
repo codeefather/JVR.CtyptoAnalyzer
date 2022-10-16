@@ -1,60 +1,75 @@
 package ru.javarush.mogutov.cryptoanalizer.commands;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 import static ru.javarush.mogutov.cryptoanalizer.constants.Constants.*;
 
 public class Analyzer{
 
+    // function for text encryption
     void encryptText(ArrayList<Character> text, int move){
 
-        for (int i = 0; i < text.size(); i++) {
+        for (Character character : text) {
             for (int j = 0; j < ALPHABET.length; j++) {
-                if(Objects.equals(text.get(i), ALPHABET[j])){
+                if (Objects.equals(character, ALPHABET[j])) {
                     try {
                         EncryptText.append(ALPHABET[j + move]);
                         break;
-                    } catch (ArrayIndexOutOfBoundsException e){
-                        int indexOutBounds = move - (32-j);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        int indexOutBounds = move - (32 - j);
                         EncryptText.append(ALPHABET[indexOutBounds - 1]);
                         break;
                     }
                 }
             }
         }
-
     }
 
-    StringBuilder decryptText(String input, int move){
-        StringBuilder cryptText = new StringBuilder();
-        char[] inputChar = input.toCharArray();
+    void decryptText(ArrayList<Character> text, int move){
 
-
-        for (int i = 0; i < inputChar.length; i++) {
+        for (int i = 0; i < text.size(); i++) {
             for (int j = 0; j < ALPHABET.length; j++) {
-                if(inputChar[i] == ALPHABET[j]){
-                    try {
-                        cryptText.append(ALPHABET[j - move]);
-                        break;
-                    } catch (ArrayIndexOutOfBoundsException e){
-                        int indexOutBounds = move - j;
-                        cryptText.append(ALPHABET[ALPHABET.length - indexOutBounds]);
-                        break;
-                    }
+                if (Objects.equals(text.get(i), ALPHABET[j])) {
+                    EncryptText.append(ALPHABET[j - move]);
+                    break;
                 }
             }
         }
-        return cryptText;
+
+        //                    try {
+//                        EncryptText.append(ALPHABET[j - move]);
+//                        break;
+//                    } catch (ArrayIndexOutOfBoundsException e) {
+//                        int indexOutBounds = move - (32 - j);
+//                        EncryptText.append(ALPHABET[indexOutBounds - 1]);
+//                        break;
+//                    }
+//        StringBuilder cryptText = new StringBuilder();
+//        char[] inputChar = input.toCharArray();
+//
+//
+//        for (int i = 0; i < inputChar.length; i++) {
+//            for (int j = 0; j < ALPHABET.length; j++) {
+//                if(inputChar[i] == ALPHABET[j]){
+//                    try {
+//                        cryptText.append(ALPHABET[j - move]);
+//                        break;
+//                    } catch (ArrayIndexOutOfBoundsException e){
+//                        int indexOutBounds = move - j;
+//                        cryptText.append(ALPHABET[ALPHABET.length - indexOutBounds]);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+       // return cryptText;
     }
 
     void readPunctuation(ArrayList<Character> text){
-        // запоминаем место (индекс) пунктуации и его значение(символ)
+        // we remember the place (index) of punctuation and its meaning (symbol)
         for (int i = 0; i < text.size(); i++) {
-            for (int j = 0; j < PUNCTUATION.length; j++) {
-                if(text.get(i) == PUNCTUATION[j]){
+            for (char c : PUNCTUATION) {
+                if (text.get(i) == c) {
                     punctuationMap.put(i, text.get(i));
                 }
             }
@@ -64,25 +79,37 @@ public class Analyzer{
 
     StringBuilder writePunctuation(StringBuilder textWithoutPunctuation){
 
-        // буфферный LIST для записи текста С пунктуацией
-        List<Character> symbolChar = new ArrayList<>();
-        // индексы, которые надо добавить (на место key) на значение (values)
+        // buffer LIST for writing text With punctuation
+        ArrayList<Character> symbolChar = new ArrayList<>();
+        // indexes to be added (in place of key) to the value (values)
         Set<Integer> keys = punctuationMap.keySet();
 
-        // Добавляем наш тект без пунктуации в ArrayList
         for (int i = 0; i < textWithoutPunctuation.length(); i++){
-            if(Character.isAlphabetic(textWithoutPunctuation.charAt(i))) {
                 symbolChar.add(textWithoutPunctuation.charAt(i));
+        }
+
+//            if(Character.isAlphabetic(textWithoutPunctuation.charAt(i))) {
+//                symbolChar.add(textWithoutPunctuation.charAt(i));
+//            }
+
+        // adding punctuation
+        for (Integer key : keys) {
+            char value = punctuationMap.get(key);
+            //symbolChar.add(key, value);
+            try {
+                symbolChar.add(key, value);
+            }catch (IndexOutOfBoundsException e){
+                symbolChar.add(value);
             }
         }
 
-        // добавляем пунктуацию
-        for (Integer key : keys) {
-            char value = punctuationMap.get(key);
-            symbolChar.add(key, value);
-        }
+//            try {
+//                symbolChar.add(key, value);
+//            }catch (IndexOutOfBoundsException e){
+//                symbolChar.add(key-2, value);
+//            }
 
-        // добавляем в новый StringBuilder
+        // adding to the new StringBuilder
         StringBuilder textWithPunctuation = new StringBuilder("");
         for (char symbol : symbolChar) {
             textWithPunctuation.append(symbol);
@@ -92,21 +119,23 @@ public class Analyzer{
 
     void deletePunctuation(ArrayList<Character> text){
 
-        // list, куда записываем индексы, которые следует удалить
+        // list, where we write the indexes that should be deleted
         List<Integer> indexNeedToDelete = new ArrayList<>();
 
-        // записываем индексы, которые следует удалить
+        // writing down the indexes that should be deleted
         for (int i = 0; i < text.size(); i++) {
             for (char c : PUNCTUATION) {
                 if (text.get(i).equals(c)) {
                     indexNeedToDelete.add(i);
+                    break;
                 }
             }
         }
 
-        // удаляем пунктуацию
+        // delete punctuation
         for (int i = 0; i < indexNeedToDelete.size(); i++) {
-            text.remove(indexNeedToDelete.get(i) - i);
+            text.remove(indexNeedToDelete.get(i));
+            //text.remove(indexNeedToDelete.get(i) - i);
         }
 
     }

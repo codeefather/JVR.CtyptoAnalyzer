@@ -12,7 +12,9 @@ public class ConsoleRunner {
         System.out.println("Welcome to CryptoAnalyzer");
         System.out.println("Please enter the address file");
         FileAddressToRead = scanner.nextLine();
+        //FileAddressToRead = "D:\\test\\encrypt.txt";
         System.out.println("Enter address file to write result");
+        //FileAddressToWrite = "D:\\test\\decrypt.txt";
         FileAddressToWrite = scanner.nextLine();
         userChoice();
     }

@@ -1,6 +1,7 @@
 package ru.javarush.mogutov.cryptoanalizer.entity;
 
 import ru.javarush.mogutov.cryptoanalizer.commands.Analyzer;
+import ru.javarush.mogutov.cryptoanalizer.commands.Decoder;
 import ru.javarush.mogutov.cryptoanalizer.commands.Encoder;
 
 import java.io.FileReader;
@@ -60,6 +61,8 @@ public class Controller {
                 encoder.execute();
                 break;
             case 2:
+                Decoder decoder = new Decoder(new Analyzer());
+                decoder.execute();
                 //controller = new Controller(keyToDeCrypt);
                 break;
             case 3:
